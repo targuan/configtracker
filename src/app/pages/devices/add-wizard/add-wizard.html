@@ -1,0 +1,23 @@
+<clr-wizard #wizard [(clrWizardOpen)]="wizardOpen" clrWizardSize="xl">
+  <clr-wizard-title>Toto</clr-wizard-title>
+
+  <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
+  <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
+  <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
+  <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Page 1</ng-template>
+    <p>Content for step 1</p>
+  </clr-wizard-page>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Page 2</ng-template>
+    <p>Content for step 2</p>
+  </clr-wizard-page>
+
+  <clr-wizard-page>
+    <ng-template clrPageTitle>Page 3</ng-template>
+    <p>Content for step 3</p>
+  </clr-wizard-page>
+</clr-wizard>
