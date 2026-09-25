@@ -1,0 +1,26 @@
+name: Full CI Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  frontend:
+    name: Frontend Tests
+    uses: ./.github/workflows/angular-ci.yml
+
+  backend:
+    name: Backend Tests
+    uses: ./.github/workflows/django-ci.yml
+
+  # Optional: Combined workflow that runs both
+  full-pipeline:
+    name: Full Pipeline
+    needs: [frontend, backend]
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: All tests passed
+        run: echo "All CI tests passed successfully!"

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-config
+  namespace: configtracker
+  labels:
+    app: configtracker
+    component: frontend
+data:
+  NGINX_ENVSUBST_TEMPLATE_DIR: "/etc/nginx/templates"
+  NGINX_ENVSUBST_OUTPUT_DIR: "/etc/nginx/conf.d"

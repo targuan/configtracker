@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: configtracker
+  labels:
+    app: configtracker
+    component: backend
+data:
+  DJANGO_SETTINGS_MODULE: "configtracker.settings"
+  DEBUG: "False"
+  ALLOWED_HOSTS: ".localhost,127.0.0.1,[::1],backend.configtracker.svc.cluster.local"
+  DATABASE_URL: "postgres://postgres:postgres@postgres.configtracker.svc.cluster.local:5432/configtracker"
