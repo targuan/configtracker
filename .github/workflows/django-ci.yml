@@ -25,23 +25,21 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
+        working-directory: backend
         run: |
-          cd backend
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run migrations
-        run: |
-          cd backend
-          python manage.py migrate --noinput
+        working-directory: backend
+        run: python manage.py migrate --noinput
 
       - name: Run tests
-        run: |
-          cd backend
-          python manage.py test
+        working-directory: backend
+        run: python manage.py test
 
       - name: Check code style
+        working-directory: backend
         run: |
-          cd backend
           pip install flake8
           flake8 .

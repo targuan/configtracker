@@ -4,8 +4,14 @@ on:
   push:
     branches: [main]
     tags: ['v*']
+    paths:
+      - 'frontend/**'
+      - 'backend/**'
   pull_request:
     branches: [main]
+    paths:
+      - 'frontend/**'
+      - 'backend/**'
 
 jobs:
   build-frontend:
@@ -25,17 +31,16 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-        if: github.event_name != 'pull_request'
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: |
-            ghcr.io/${{ github.repository }}/configtracker-frontend:latest
             ghcr.io/${{ github.repository }}/configtracker-frontend:${{ github.sha }}
+            ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'ghcr.io/${{ github.repository }}/configtracker-frontend:latest' || '' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -56,16 +61,15 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-        if: github.event_name != 'pull_request'
 
       - name: Build and push backend image
         uses: docker/build-push-action@v5
         with:
           context: ./backend
           file: ./backend/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
+          push: true
           tags: |
-            ghcr.io/${{ github.repository }}/configtracker-backend:latest
             ghcr.io/${{ github.repository }}/configtracker-backend:${{ github.sha }}
+            ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'ghcr.io/${{ github.repository }}/configtracker-backend:latest' || '' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
