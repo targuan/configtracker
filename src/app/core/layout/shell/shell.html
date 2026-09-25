@@ -1,0 +1,143 @@
+
+<div class="main-container">
+  @if (alertService.alert(); as alert) {
+    <div
+      class="alert alert-app-level"
+      [class.alert-info]="alert.type === 'info'"
+      [class.alert-success]="alert.type === 'success'"
+      [class.alert-warning]="alert.type === 'warning'"
+      [class.alert-danger]="alert.type === 'danger'">
+
+      <div class="alert-items">
+
+        <div class="alert-item static">
+
+          <div class="alert-icon-wrapper">
+
+            @switch (alert.type) {
+
+              @case ('info') {
+                <clr-icon
+                  class="alert-icon"
+                  shape="info-circle">
+                </clr-icon>
+              }
+
+              @case ('success') {
+                <clr-icon
+                  class="alert-icon"
+                  shape="check-circle">
+                </clr-icon>
+              }
+
+              @case ('warning') {
+                <clr-icon
+                  class="alert-icon"
+                  shape="warning-standard">
+                </clr-icon>
+              }
+
+              @case ('danger') {
+                <clr-icon
+                  class="alert-icon"
+                  shape="error-standard">
+                </clr-icon>
+              }
+
+            }
+
+          </div>
+
+          <div class="alert-text">
+            {{ alert.message }}
+          </div>
+
+          @if (alert.actionLabel) {
+            <div class="alert-actions">
+              <button
+                class="btn btn-sm alert-action">
+                {{ alert.actionLabel }}
+              </button>
+            </div>
+          }
+
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="alertService.close()">
+
+        <clr-icon shape="times"></clr-icon>
+
+      </button>
+
+    </div>
+  }
+
+  <header class="header header-1">
+    <div class="branding">
+      <a href="javascript://">
+        <clr-icon shape="vm-bug"></clr-icon>
+        <span class="title">Clarity Design</span>
+      </a>
+    </div>
+    
+  </header>
+  <nav class="subnav">
+    <ul class="nav">
+      <li class="nav-item">
+        <a class="nav-link"  routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"  routerLink="/devices" routerLinkActive="active">Devices</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"  routerLink="/tasks" routerLinkActive="active">Tasks</a>
+      </li>
+    </ul>
+  </nav>
+  <div class="content-container">
+    <div class="content-area" cds-layout="m-t:md">
+      <router-outlet />
+    </div>
+    <clr-vertical-nav>
+      <!--a clrVerticalNavLink>Link 1</a>
+      <a clrVerticalNavLink>Link 2</a>
+      <a clrVerticalNavLink class="active">Link 3</a>
+      <a clrVerticalNavLink>Link 4</a>
+      <a clrVerticalNavLink>Link 5</a>
+      <a clrVerticalNavLink>Link 6</a-->
+        <button type="button" class="btn btn-primary" (click)="modalOpen = true">SHow Modal</button>
+    </clr-vertical-nav>
+  </div>
+@if (modalService.modal(); as modal) {
+
+  <clr-modal
+    [clrModalOpen]="true"
+    [clrModalSize]="modal.size ?? 'md'"
+    (clrModalOpenChange)="modalService.close()">
+
+    <h3 class="modal-title">
+      {{ modal.title }}
+    </h3>
+
+    <div class="modal-body">
+
+      <ng-container
+        *ngComponentOutlet="modal.component">
+      </ng-container>
+
+    </div>
+
+  </clr-modal>
+
+}
+</div>
+
+
+
+
