@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: configtracker
+
+namespace: configtracker
+
+resources:
+  - namespace.yaml
+  
+  # Backend
+  - backend/configmap.yaml
+  - backend/secret.yaml
+  - backend/deployment.yaml
+  - backend/service.yaml
+  
+  # Frontend
+  - frontend/configmap.yaml
+  - frontend/deployment.yaml
+  - frontend/service.yaml
+  
+  # Ingress
+  - ingress.yaml
+  
+  # PostgreSQL
+  - postgres/configmap.yaml
+  - postgres/secret.yaml
+  - postgres/persistent-volume-claim.yaml
+  - postgres/statefulset.yaml
+  - postgres/service.yaml
