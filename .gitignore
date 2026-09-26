@@ -11,6 +11,10 @@
 /frontend/npm-debug.log
 /frontend/yarn-error.log
 
+/backend/db.sqlite3
+
+__pycache__
+
 # IDEs and editors
 .idea/
 .project
