@@ -1,7 +1,4 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Node.js CI
+name: "build andular app"
 
 on:
   push:
@@ -14,6 +11,10 @@ on:
     paths:
       - 'frontend/**'
       - '.github/**'
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   build:
@@ -46,3 +47,56 @@ jobs:
       - name: Run tests
         run: npm test -- --watch=false
 
+  publish:
+    name: Publish Angular application
+
+    needs: build
+
+    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6.5.0
+        with:
+          node-version: 24.x
+          registry-url: "https://npm.pkg.github.com"
+          cache: npm
+          cache-dependency-path: "./frontend/package-lock.json"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Prepare package
+        run: |
+          rm -rf package
+          mkdir package
+
+          cp -r dist/*/browser/* package/
+
+          cat > package/package.json <<'EOF'
+          {
+            "name": "@${{ github.repository_owner }}/angular-app",
+            "version": "0.0.${{ github.run_number }}",
+            "description": "Angular application",
+            "private": false
+          }
+          EOF
+
+      - name: Publish package
+        working-directory: frontend/package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
