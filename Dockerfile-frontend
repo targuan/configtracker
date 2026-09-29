@@ -10,7 +10,7 @@ FROM ${BASE_IMAGE} AS static
 
 COPY --from=build /frontend/dist/configtracker/browser /app/static
 
-RUN python manage.py collectstatic
+RUN python manage.py collectstatic --noinput
 
 FROM nginx:stable
 
