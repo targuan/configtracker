@@ -8,7 +8,7 @@ RUN npm install -g @angular/cli && npm install && ng build
 # Use an official Python runtime as a parent image
 FROM ${BASE_IMAGE} AS static
 
-COPY --from=build /frontend/dist/frontend/browser /app/static
+COPY --from=build /frontend/dist/configtracker/browser /app/static
 
 RUN python manage.py collectstatic
 
