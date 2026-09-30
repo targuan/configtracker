@@ -70,6 +70,43 @@ jobs:
         run: |
           python manage.py check
 
+  # Docker build job - runs on PR updates (but doesn't push)
+  docker-build-pr:
+    name: Docker Build (PR)
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main')
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker base image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Dockerfile-base
+          push: false
+          tags: configtracker-base:test
+
+      - name: Build Docker frontend image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Dockerfile-frontend
+          push: false
+          tags: configtracker-frontend:test
+          build-args: BASE_IMAGE=configtracker-base:test
+
+      - name: Build Docker backend image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Dockerfile-backend
+          push: false
+          tags: configtracker-backend:test
+          build-args: BASE_IMAGE=configtracker-base:test
+
   # Version bump job - runs on merge to main
   version-bump:
     name: Version Bump (Beta)
@@ -120,11 +157,51 @@ jobs:
       - name: Bump version (beta)
         id: bump-version
         run: |
-          # Source the bump version script
-          source scripts/bump-version.sh --${{ steps.determine-bump.outputs.bump_type }} --beta
-          NEW_VERSION=$(echo $GITHUB_OUTPUT | grep "new_version=" | cut -d= -f2)
+          CURRENT_VERSION="${{ steps.get-version.outputs.current_version }}"
+          BUMP_TYPE="${{ steps.determine-bump.outputs.bump_type }}"
+          
+          # Parse version
+          MAJOR=$(echo "$CURRENT_VERSION" | cut -d. -f1)
+          MINOR=$(echo "$CURRENT_VERSION" | cut -d. -f2)
+          PATCH=$(echo "$CURRENT_VERSION" | cut -d. -f3 | cut -d- -f1)
+          
+          # Check if it's a pre-release
+          if echo "$CURRENT_VERSION" | grep -qE "-[a-z]+\."; then
+            # Already a prerelease, increment the prerelease number
+            PRE_TYPE=$(echo "$CURRENT_VERSION" | grep -oE "-[a-z]+\." | sed 's/^-//' | cut -d. -f1)
+            PRE_NUM=$(echo "$CURRENT_VERSION" | grep -oE "\.[0-9]+$" | cut -d. -f2)
+            if [ -z "$PRE_NUM" ]; then
+              PRE_NUM=1
+            else
+              PRE_NUM=$((PRE_NUM + 1))
+            fi
+            NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}-${PRE_TYPE}.${PRE_NUM}"
+          else
+            # Not a prerelease, create beta.1
+            case "$BUMP_TYPE" in
+              major)
+                MAJOR=$((MAJOR + 1))
+                MINOR=0
+                PATCH=0
+                ;;
+              minor)
+                MINOR=$((MINOR + 1))
+                PATCH=0
+                ;;
+              patch)
+                PATCH=$((PATCH + 1))
+                ;;
+            esac
+            NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}-beta.1"
+          fi
+          
           echo "New beta version: $NEW_VERSION"
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update version in package.json
+        run: |
+          npm version ${{ steps.bump-version.outputs.new_version }} --no-git-tag-version
+          echo "Updated version to: $(node -p "require('./package.json').version")"
 
       - name: Commit version bump
         run: |
@@ -230,40 +307,3 @@ jobs:
             ghcr.io/${{ github.repository }}:backend-${{ steps.get-release-version.outputs.release_version }}
             ghcr.io/${{ github.repository }}:backend-latest
           build-args: BASE_IMAGE=ghcr.io/${{ github.repository }}:base-${{ steps.get-release-version.outputs.release_version }}
-
-  # Docker build job - runs on PR updates (but doesn't push)
-  docker-build-pr:
-    name: Docker Build (PR)
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main')
-    
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Build Docker base image
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: Dockerfile-base
-          push: false
-          tags: configtracker-base:test
-
-      - name: Build Docker frontend image
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: Dockerfile-frontend
-          push: false
-          tags: configtracker-frontend:test
-          build-args: BASE_IMAGE=configtracker-base:test
-
-      - name: Build Docker backend image
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: Dockerfile-backend
-          push: false
-          tags: configtracker-backend:test
-          build-args: BASE_IMAGE=configtracker-base:test
