@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Configuration List</title>
+</head>
+<body>
+    <h1>Configuration List</h1>
+    <a href="{% url 'configuration-create' %}">Add New Configuration</a>
+    <ul>
+        {% for configuration in configurations %}
+            <li>
+                <a href="{% url 'configuration-detail' configuration.pk %}">{{ configuration }}</a>
+                <a href="{% url 'configuration-update' configuration.pk %}">Edit</a>
+                <a href="{% url 'configuration-delete' configuration.pk %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

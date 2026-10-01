@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ device.name }}</title>
+</head>
+<body>
+    <h1>{{ device.name }}</h1>
+    <p>Created: {{ device.created }}</p>
+    <p>Modified: {{ device.modified }}</p>
+    <a href="{% url 'device-list' %}">Back to List</a>
+    <a href="{% url 'device-update' device.pk %}">Edit</a>
+    <a href="{% url 'device-delete' device.pk %}">Delete</a>
+</body>
+</html>
