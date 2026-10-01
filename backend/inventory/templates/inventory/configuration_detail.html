@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Configuration {{ configuration.id }}</title>
+</head>
+<body>
+    <h1>Configuration {{ configuration.id }}</h1>
+    <p>Configuration: {{ configuration.configuration }}</p>
+    <p>Created: {{ configuration.created }}</p>
+    <p>Modified: {{ configuration.modified }}</p>
+    <a href="{% url 'configuration-list' %}">Back to List</a>
+    <a href="{% url 'configuration-update' configuration.pk %}">Edit</a>
+    <a href="{% url 'configuration-delete' configuration.pk %}">Delete</a>
+</body>
+</html>

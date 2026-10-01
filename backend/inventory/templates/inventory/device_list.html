@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Device List</title>
+</head>
+<body>
+    <h1>Device List</h1>
+    <a href="{% url 'device-create' %}">Add New Device</a>
+    <ul>
+        {% for device in devices %}
+            <li>
+                <a href="{% url 'device-detail' device.pk %}">{{ device.name }}</a>
+                <a href="{% url 'device-update' device.pk %}">Edit</a>
+                <a href="{% url 'device-delete' device.pk %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

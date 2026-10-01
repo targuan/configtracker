@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if object %}Edit{% else %}Add{% endif %} Device</title>
+</head>
+<body>
+    <h1>{% if object %}Edit{% else %}Add{% endif %} Device</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'device-list' %}">Back to List</a>
+</body>
+</html>
