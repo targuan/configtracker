@@ -1,12 +1,12 @@
 import { Component, ViewChild, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ClrWizard, ClrWizardModule, ClrInputModule, ClrButtonModule } from '@clr/angular';
+import { ClrWizard, ClrWizardModule, ClrInputModule, ClrButtonModule, ClrIconModule } from '@clr/angular';
 import { DeviceService, Device } from '../../../core/services/device.service';
 
 @Component({
   selector: 'app-add-wizard',
-  imports: [CommonModule, FormsModule, ClrWizardModule, ClrInputModule, ClrButtonModule],
+  imports: [CommonModule, FormsModule, ClrWizardModule, ClrInputModule, ClrButtonModule, ClrIconModule],
   templateUrl: './add-wizard.html',
   styleUrl: './add-wizard.css',
 })

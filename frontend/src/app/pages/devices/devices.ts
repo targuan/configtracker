@@ -1,7 +1,7 @@
 import { Component, inject, ViewChild, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ClrDatagridModule, ClrDatagridStringFilterInterface } from '@clr/angular';
+import { ClrDatagridModule, ClrIconModule } from '@clr/angular';
 import { AlertService } from '../../core/services/alert.service';
 import { ModalService } from '../../core/services/modal.service';
 import { DeviceService, Device } from '../../core/services/device.service';
@@ -9,7 +9,7 @@ import { AddWizard } from './add-wizard/add-wizard';
 
 @Component({
   selector: 'app-devices',
-  imports: [CommonModule, FormsModule, ClrDatagridModule, AddWizard],
+  imports: [CommonModule, FormsModule, ClrDatagridModule, ClrIconModule, AddWizard],
   templateUrl: './devices.html',
   styleUrl: './devices.css'
 })

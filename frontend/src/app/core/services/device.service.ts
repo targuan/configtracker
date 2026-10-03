@@ -20,14 +20,14 @@ export interface DeviceCreate {
 export class DeviceService {
 
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = '/api/devices';
+  private readonly apiUrl = 'https://ct.hype-42.infra.targuan.fr/api/inventory/devices/';
 
   getAll(): Observable<Device[]> {
     return this.http.get<Device[]>(this.apiUrl);
   }
 
   getById(id: number): Observable<Device> {
-    return this.http.get<Device>(`${this.apiUrl}/${id}`);
+    return this.http.get<Device>(`${this.apiUrl}${id}/`);
   }
 
   create(device: DeviceCreate): Observable<Device> {
@@ -35,10 +35,10 @@ export class DeviceService {
   }
 
   update(id: number, device: Partial<DeviceCreate>): Observable<Device> {
-    return this.http.patch<Device>(`${this.apiUrl}/${id}`, device);
+    return this.http.patch<Device>(`${this.apiUrl}${id}/`, device);
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}${id}/`);
   }
 }
