@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { AddWizard } from './add-wizard';
 
@@ -8,7 +9,7 @@ describe('AddWizard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddWizard],
+      imports: [AddWizard, HttpClientTestingModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AddWizard);

@@ -1,23 +1,25 @@
-<clr-wizard #wizard [(clrWizardOpen)]="wizardOpen" clrWizardSize="xl">
-  <clr-wizard-title>Toto</clr-wizard-title>
+<clr-wizard #wizard [(clrWizardOpen)]="wizardOpen" clrWizardSize="lg" (clrWizardOnFinish)="onSubmit()" (clrWizardOnCancel)="onCancel()">
+  <clr-wizard-title>Add New Device</clr-wizard-title>
 
   <clr-wizard-button [type]="'cancel'">Cancel</clr-wizard-button>
-  <clr-wizard-button [type]="'previous'">Back</clr-wizard-button>
-  <clr-wizard-button [type]="'next'">Next</clr-wizard-button>
-  <clr-wizard-button [type]="'finish'">Finish</clr-wizard-button>
+  <clr-wizard-button [type]="'finish'">
+    <span *ngIf="!isSubmitting()">Create Device</span>
+    <span *ngIf="isSubmitting()">
+      <clr-icon shape="refresh" class="spin"></clr-icon>
+      Creating...
+    </span>
+  </clr-wizard-button>
 
   <clr-wizard-page>
-    <ng-template clrPageTitle>Page 1</ng-template>
-    <p>Content for step 1</p>
-  </clr-wizard-page>
-
-  <clr-wizard-page>
-    <ng-template clrPageTitle>Page 2</ng-template>
-    <p>Content for step 2</p>
-  </clr-wizard-page>
-
-  <clr-wizard-page>
-    <ng-template clrPageTitle>Page 3</ng-template>
-    <p>Content for step 3</p>
+    <ng-template clrPageTitle>Device Information</ng-template>
+    <div class="clr-row">
+      <div class="clr-col-12">
+        <clr-input-container>
+          <label>Device Name</label>
+          <input clrInput type="text" [(ngModel)]="deviceName" placeholder="Enter device name" required />
+          <clr-control-error>Device name is required</clr-control-error>
+        </clr-input-container>
+      </div>
+    </div>
   </clr-wizard-page>
 </clr-wizard>

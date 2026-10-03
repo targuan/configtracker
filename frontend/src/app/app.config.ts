@@ -2,6 +2,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 
 import { provideAnimations } from '@angular/platform-browser/animations'
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
 
 import { routes } from './app.routes';
 
@@ -9,6 +10,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideAnimations()
+    provideAnimations(),
+    provideHttpClient()
   ]
 };
