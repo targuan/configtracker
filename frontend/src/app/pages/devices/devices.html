@@ -12,17 +12,15 @@
         <div class="clr-row">
           <div class="clr-col-6">
             <button class="btn btn-primary" (click)="add()">
-              <clr-icon shape="plus"></clr-icon>
+              
               Add Device
             </button>
             <button class="btn btn-danger" (click)="deleteSelected()" [disabled]="selectedDevices.length === 0">
-              <clr-icon shape="trash"></clr-icon>
+              
               Delete Selected
             </button>
           </div>
           <div class="clr-col-6">
-            <clr-datagrid-string-filter [clrDgStringFilter]="nameFilter" placeholder="Filter by name...">
-            </clr-datagrid-string-filter>
           </div>
         </div>
         
@@ -43,7 +41,7 @@
               <clr-dg-cell>{{ device.modified | date:'medium' }}</clr-dg-cell>
               <clr-dg-cell>
                 <button class="btn btn-sm btn-danger" (click)="deleteDevice(device)">
-                  <clr-icon shape="trash"></clr-icon>
+                  
                 </button>
               </clr-dg-cell>
             </clr-dg-row>

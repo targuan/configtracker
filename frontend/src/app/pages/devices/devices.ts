@@ -6,6 +6,14 @@ import { AlertService } from '../../core/services/alert.service';
 import { ModalService } from '../../core/services/modal.service';
 import { DeviceService, Device } from '../../core/services/device.service';
 import { AddWizard } from './add-wizard/add-wizard';
+import { ClarityIcons, plusIcon, trashIcon} from '@clr/angular/icon';
+
+
+class NameFilter implements ClrDatagridStringFilterInterface<Device> {
+  accepts(device: Device, search: string): boolean {
+    return '' + device.name == search || device.name.toLowerCase().indexOf(search) >= 0;
+  }
+}
 
 @Component({
   selector: 'app-devices',
@@ -19,10 +27,15 @@ export class Devices implements OnInit {
   devices = signal<Device[]>([]);
   loading = signal<boolean>(false);
   selectedDevices: Device[] = [];
-
+  nameFilter = new NameFilter();
+  
   private readonly alertService = inject(AlertService);
   private readonly modalService = inject(ModalService);
   private readonly deviceService = inject(DeviceService);
+
+  constructor() {
+    ClarityIcons.addIcons(plusIcon, trashIcon);
+  }
 
   ngOnInit(): void {
     this.loadDevices();
