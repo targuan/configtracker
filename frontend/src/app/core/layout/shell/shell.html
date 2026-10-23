@@ -87,31 +87,25 @@
     </div>
     
   </header>
-  <nav class="subnav">
-    <ul class="nav">
-      <li class="nav-item">
-        <a class="nav-link"  routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link"  routerLink="/devices" routerLinkActive="active">Devices</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link"  routerLink="/tasks" routerLinkActive="active">Tasks</a>
-      </li>
-    </ul>
-  </nav>
+
   <div class="content-container">
     <div class="content-area" cds-layout="m-t:md">
       <router-outlet />
     </div>
-    <clr-vertical-nav>
+    <clr-vertical-nav [clrVerticalNavCollapsible]="true">
+      <a clrVerticalNavLink  routerLink="/dashboard" routerLinkActive="active">
+        <clr-icon shape="dashboard" clrVerticalNavIcon></clr-icon>
+      Dashboard</a>
+      <a clrVerticalNavLink  routerLink="/devices" routerLinkActive="active">
+        <clr-icon shape="network-switch" clrVerticalNavIcon></clr-icon>Devices</a>
+      <a clrVerticalNavLink  routerLink="/tasks" routerLinkActive="active">
+        <clr-icon shape="tasks" clrVerticalNavIcon></clr-icon>Tasks</a>
       <!--a clrVerticalNavLink>Link 1</a>
       <a clrVerticalNavLink>Link 2</a>
       <a clrVerticalNavLink class="active">Link 3</a>
       <a clrVerticalNavLink>Link 4</a>
       <a clrVerticalNavLink>Link 5</a>
       <a clrVerticalNavLink>Link 6</a-->
-        <button type="button" class="btn btn-primary" (click)="modalOpen = true">SHow Modal</button>
     </clr-vertical-nav>
   </div>
 @if (modalService.modal(); as modal) {

@@ -23,7 +23,7 @@ export class DeviceService {
   private readonly apiUrl = 'https://ct.hype-42.infra.targuan.fr/api/inventory/devices/';
 
   getAll(): Observable<Device[]> {
-    return this.http.get<Device[]>(this.apiUrl, {mode: "no-cors"});
+    return this.http.get<Device[]>(this.apiUrl);
   }
 
   getById(id: number): Observable<Device> {

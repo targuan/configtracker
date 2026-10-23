@@ -2,6 +2,8 @@ import { Component, ViewChild, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClrWizard, ClrWizardModule, ClrInputModule, ClrButtonModule } from '@clr/angular';
+import { ClarityIcons, dashboardIcon, tasksIcon, networkSwitchIcon, infoCircleIcon, cloudIcon, folderIcon, timesIcon, refreshIcon} from '@clr/angular/icon';
+
 import { DeviceService, Device } from '../../../core/services/device.service';
 
 @Component({
@@ -20,6 +22,11 @@ export class AddWizard {
   deviceCreated = output<Device>();
 
   private readonly deviceService = inject(DeviceService);
+
+  
+  constructor() {
+    ClarityIcons.addIcons(dashboardIcon, tasksIcon, networkSwitchIcon,infoCircleIcon,cloudIcon, folderIcon, timesIcon, refreshIcon);
+  }
 
   open(): void {
     this.wizardOpen = true;
