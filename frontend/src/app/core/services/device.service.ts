@@ -20,7 +20,7 @@ export interface DeviceCreate {
 export class DeviceService {
 
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'https://ct.hype-42.infra.targuan.fr/api/inventory/devices/';
+  private readonly apiUrl = 'https://ct.hype-42.infra.targuan.fr/api/inventory/devices';
 
   getAll(): Observable<Device[]> {
     return this.http.get<Device[]>(this.apiUrl);

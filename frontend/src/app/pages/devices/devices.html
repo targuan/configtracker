@@ -32,18 +32,15 @@
             <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
             <clr-dg-column [clrDgField]="'created'">Created</clr-dg-column>
             <clr-dg-column [clrDgField]="'modified'">Modified</clr-dg-column>
-            <clr-dg-column>Actions</clr-dg-column>
 
             <clr-dg-row *clrDgItems="let device of devices()" [clrDgItem]="device">
+              <clr-dg-action-overflow>
+                <button class="action-item" (click)="deleteDevice(device)">Delete</button>
+            </clr-dg-action-overflow>
               <clr-dg-cell>{{ device.id }}</clr-dg-cell>
               <clr-dg-cell>{{ device.name }}</clr-dg-cell>
               <clr-dg-cell>{{ device.created | date:'medium' }}</clr-dg-cell>
               <clr-dg-cell>{{ device.modified | date:'medium' }}</clr-dg-cell>
-              <clr-dg-cell>
-                <button class="btn btn-sm btn-danger" (click)="deleteDevice(device)">
-                  
-                </button>
-              </clr-dg-cell>
             </clr-dg-row>
 
             <clr-dg-footer>
