@@ -9,7 +9,7 @@ class DeviceCRUDTestCase(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.base_url = '/api/inventory/devices/'
+        self.base_url = '/api/inventory/devices'
 
     def test_create_device(self):
         """Test creating a new device"""
@@ -53,7 +53,7 @@ class DeviceCRUDTestCase(TestCase):
     def test_retrieve_device(self):
         """Test retrieving a specific device"""
         device = Device.objects.create(name='Retrieve Test Device')
-        url = f'{self.base_url}{device.id}/'
+        url = f'{self.base_url}/{device.id}'
         
         response = self.client.get(url)
         
@@ -63,7 +63,7 @@ class DeviceCRUDTestCase(TestCase):
 
     def test_retrieve_nonexistent_device(self):
         """Test retrieving a non-existent device"""
-        url = f'{self.base_url}999999/'
+        url = f'{self.base_url}/999999'
         response = self.client.get(url)
         
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -71,7 +71,7 @@ class DeviceCRUDTestCase(TestCase):
     def test_update_device(self):
         """Test updating a device"""
         device = Device.objects.create(name='Original Name')
-        url = f'{self.base_url}{device.id}/'
+        url = f'{self.base_url}/{device.id}'
         update_data = {'name': 'Updated Name'}
         
         response = self.client.put(url, update_data, format='json')
@@ -86,7 +86,7 @@ class DeviceCRUDTestCase(TestCase):
     def test_partial_update_device(self):
         """Test partial update of a device"""
         device = Device.objects.create(name='Original Name')
-        url = f'{self.base_url}{device.id}/'
+        url = f'{self.base_url}/{device.id}'
         update_data = {'name': 'Partially Updated Name'}
         
         response = self.client.patch(url, update_data, format='json')
@@ -97,7 +97,7 @@ class DeviceCRUDTestCase(TestCase):
     def test_delete_device(self):
         """Test deleting a device"""
         device = Device.objects.create(name='Device to Delete')
-        url = f'{self.base_url}{device.id}/'
+        url = f'{self.base_url}/{device.id}'
         
         response = self.client.delete(url)
         
@@ -106,7 +106,7 @@ class DeviceCRUDTestCase(TestCase):
 
     def test_delete_nonexistent_device(self):
         """Test deleting a non-existent device"""
-        url = f'{self.base_url}999999/'
+        url = f'{self.base_url}/999999'
         response = self.client.delete(url)
         
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -127,7 +127,7 @@ class DeviceCRUDTestCase(TestCase):
             state='intent'
         )
         
-        url = f'{self.base_url}{device.id}/'
+        url = f'{self.base_url}/{device.id}'
         response = self.client.delete(url)
         
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -143,7 +143,7 @@ class ConfigurationCRUDTestCase(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.base_url = '/api/inventory/configurations/'
+        self.base_url = '/api/inventory/configurations'
 
     def test_create_configuration(self):
         """Test creating a new configuration"""
@@ -184,7 +184,7 @@ class ConfigurationCRUDTestCase(TestCase):
     def test_retrieve_configuration(self):
         """Test retrieving a specific configuration"""
         config = Configuration.objects.create(configuration='Retrieve Test Config')
-        url = f'{self.base_url}{config.id}/'
+        url = f'{self.base_url}/{config.id}'
         
         response = self.client.get(url)
         
@@ -194,7 +194,7 @@ class ConfigurationCRUDTestCase(TestCase):
 
     def test_retrieve_nonexistent_configuration(self):
         """Test retrieving a non-existent configuration"""
-        url = f'{self.base_url}999999/'
+        url = f'{self.base_url}/999999'
         response = self.client.get(url)
         
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -202,7 +202,7 @@ class ConfigurationCRUDTestCase(TestCase):
     def test_update_configuration(self):
         """Test updating a configuration"""
         config = Configuration.objects.create(configuration='Original Config')
-        url = f'{self.base_url}{config.id}/'
+        url = f'{self.base_url}/{config.id}'
         update_data = {'configuration': 'Updated Config'}
         
         response = self.client.put(url, update_data, format='json')
@@ -217,7 +217,7 @@ class ConfigurationCRUDTestCase(TestCase):
     def test_partial_update_configuration(self):
         """Test partial update of a configuration"""
         config = Configuration.objects.create(configuration='Original Config')
-        url = f'{self.base_url}{config.id}/'
+        url = f'{self.base_url}/{config.id}'
         update_data = {'configuration': 'Partially Updated Config'}
         
         response = self.client.patch(url, update_data, format='json')
@@ -228,7 +228,7 @@ class ConfigurationCRUDTestCase(TestCase):
     def test_delete_configuration(self):
         """Test deleting a configuration"""
         config = Configuration.objects.create(configuration='Config to Delete')
-        url = f'{self.base_url}{config.id}/'
+        url = f'{self.base_url}/{config.id}'
         
         response = self.client.delete(url)
         
@@ -237,7 +237,7 @@ class ConfigurationCRUDTestCase(TestCase):
 
     def test_delete_nonexistent_configuration(self):
         """Test deleting a non-existent configuration"""
-        url = f'{self.base_url}999999/'
+        url = f'{self.base_url}/999999'
         response = self.client.delete(url)
         
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -258,7 +258,7 @@ class ConfigurationCRUDTestCase(TestCase):
             state='intent'
         )
         
-        url = f'{self.base_url}{config.id}/'
+        url = f'{self.base_url}/{config.id}'
         response = self.client.delete(url)
         
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -274,7 +274,7 @@ class DeviceConfigurationCRUDTestCase(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.base_url = '/api/inventory/device-configurations/'
+        self.base_url = '/api/inventory/device-configurations'
         self.device = Device.objects.create(name='Test Device')
         self.config = Configuration.objects.create(configuration='Test Config')
 
@@ -347,7 +347,7 @@ class DeviceConfigurationCRUDTestCase(TestCase):
             configuration=self.config, 
             state='running'
         )
-        url = f'{self.base_url}{dc.id}/'
+        url = f'{self.base_url}/{dc.id}'
         
         response = self.client.get(url)
         
@@ -359,7 +359,7 @@ class DeviceConfigurationCRUDTestCase(TestCase):
 
     def test_retrieve_nonexistent_device_configuration(self):
         """Test retrieving a non-existent device configuration"""
-        url = f'{self.base_url}999999/'
+        url = f'{self.base_url}/999999'
         response = self.client.get(url)
         
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -372,7 +372,7 @@ class DeviceConfigurationCRUDTestCase(TestCase):
             configuration=self.config, 
             state='running'
         )
-        url = f'{self.base_url}{dc.id}/'
+        url = f'{self.base_url}/{dc.id}'
         update_data = {
             'device': self.device.id,
             'configuration': config2.id,
@@ -397,7 +397,7 @@ class DeviceConfigurationCRUDTestCase(TestCase):
             configuration=self.config, 
             state='running'
         )
-        url = f'{self.base_url}{dc.id}/'
+        url = f'{self.base_url}/{dc.id}'
         update_data = {'state': 'design'}
         
         response = self.client.patch(url, update_data, format='json')
@@ -412,7 +412,7 @@ class DeviceConfigurationCRUDTestCase(TestCase):
             configuration=self.config, 
             state='running'
         )
-        url = f'{self.base_url}{dc.id}/'
+        url = f'{self.base_url}/{dc.id}'
         
         response = self.client.delete(url)
         
@@ -424,7 +424,7 @@ class DeviceConfigurationCRUDTestCase(TestCase):
 
     def test_delete_nonexistent_device_configuration(self):
         """Test deleting a non-existent device configuration"""
-        url = f'{self.base_url}999999/'
+        url = f'{self.base_url}/999999'
         response = self.client.delete(url)
         
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
